@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ljj.admin.mapper.CourseMapper">
+
+    <select id="getCoursePublishVoById" resultType="com.ljj.admin.vo.CoursePublishVo">
+        SELECT
+            c.title,
+            c.cover,
+            c.lesson_num AS lessonNum,
+            s1.title AS subjectLevelOne,
+            s2.title AS subjectLevelTwo,
+            t.name AS teacherName
+        FROM
+            edu_course c
+                LEFT JOIN edu_teacher t ON c.teacher_id = t.id
+                LEFT JOIN edu_subject s1 ON c.subject_parent_id = s1.id
+                LEFT JOIN edu_subject s2 ON c.subject_id = s2.id
+        WHERE
+            c.id = #{id}
+    </select>
+    <select id="selectAllbyStudent" resultType="com.ljj.admin.entity.Course" >
+        SELECT c.id,c.title,c.cover
+        FROM
+            edu_course as c,edu_coursestudent as cs
+        WHERE
+            c.id = cs.course_id
+          AND
+            cs.id = #{id} LIMIT #{page},#{limit}
+    </select>
+
+    <select id="selectSelfbyStudent" resultType="com.ljj.admin.entity.Course">
+        SELECT c.id,c.title,c.cover
+        FROM
+            edu_course c,edu_coursestudent cs
+        WHERE
+            c.id = cs.course_id
+          AND
+            cs.id = #{id}
+          AND
+            cs.type = 1 LIMIT #{page},#{limit}
+    </select>
+    <select id="selectClassbyStudent" resultType="com.ljj.admin.entity.Course">
+        SELECT c.id,c.title,c.cover
+        FROM
+            edu_course c,edu_coursestudent cs
+        WHERE
+            c.id = cs.course_id
+          AND
+            cs.id = #{id}
+          AND
+            cs.type = 0 LIMIT #{page},#{limit}
+    </select>
+
+    <select id="selectCouseCount" resultType="int">
+        select count(*) from edu_coursestudent where id = #{id}
+    </select>
+    <select id="selectCouseselfCount" resultType="int">
+        select count(*) from edu_coursestudent c where id = #{id} and c.type = 1
+    </select>
+    <select id="selectCouseClassCount" resultType="int">
+        select count(*) from edu_coursestudent c where id = #{id} and c.type = 0
+    </select>
+    <insert id="addStudentCourse" >
+        insert into edu_coursestudent values (#{id},#{courseId},1)
+    </insert>
+
+    <select id="checkCourse" resultType="int">
+        select count(*) from edu_coursestudent c where id = #{id} and c.course_id = #{courseId}
+    </select>
+</mapper>

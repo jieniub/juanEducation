@@ -1,0 +1,50 @@
+server:
+  port: 8222
+spring:
+  application:
+    name: edu-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: edu-admin
+          uri: lb://edu-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: edu-oss
+          uri: lb://edu-oss
+          predicates:
+            - Path=/oss/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: edu-vod
+          uri: lb://edu-vod
+          predicates:
+            - Path=/vod/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: edu-front
+          uri: lb://edu-front
+          predicates:
+            - Path=/front/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: edu-member
+          uri: lb://edu-member
+          predicates:
+            - Path=/ucenter/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
+        - id: edu-msg
+          uri: lb://edu-msg
+          predicates:
+            - Path=/msg/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}

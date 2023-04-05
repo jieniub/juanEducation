@@ -1,0 +1,9 @@
+# 项目排除路径
+/edu-admin/target/
+/edu-common/target/
+/edu-front/target/
+/edu-gateway/target/
+/edu-member/target/
+/edu-msg/target/
+/edu-oss/target/
+/edu-vod/target/
