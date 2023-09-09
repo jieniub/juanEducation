@@ -21,13 +21,13 @@ public class msg {
     @Test
     public void test(){
         try {
-            Client client = new Client(new Config().setAccessKeyId("LTAI5tSbsPh1SXsYxN1gRkcX")
-                    .setAccessKeySecret("YDFhLYL0LHFAKrI12peVVCZE0pnWJ5"));
+            Client client = new Client(new Config().setAccessKeyId("")
+                    .setAccessKeySecret(""));
             AddSmsTemplateRequest templateRequest = new AddSmsTemplateRequest()
                     .setTemplateType(0)
-                    .setTemplateName("content3")
+                    .setTemplateName("")
                     .setTemplateContent("您正在申请手机注册，验证码为：${code}，5分钟内有效")
-                    .setRemark("test");
+                    .setRemark("");
             client.addSmsTemplate(templateRequest);
             AddSmsTemplateResponse response=client.addSmsTemplate(templateRequest);
             System.out.println(JSONObject.toJSONString(response));
